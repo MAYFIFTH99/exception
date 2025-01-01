@@ -16,28 +16,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class ApiExceptionV2Controller {
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(IllegalArgumentException.class) // 200 OK
-    public ErrorResult illegalExHandler(IllegalArgumentException ex) {
-        log.error("[@ExceptionHandler] ", ex);
-        return new ErrorResult("illegal_argument_exception", ex.getMessage());
-    }
-
-    @ExceptionHandler// 매개변수로 들어오는 Exception Class와 같은 경우 생략 가능
-    public ResponseEntity<ErrorResult> userExHandler(UserException ex) {
-        log.error("[@ExceptionHandler] ", ex);
-        ErrorResult userException = new ErrorResult("user_exception", ex.getMessage());
-        return new ResponseEntity<>(userException, HttpStatus.BAD_REQUEST);
-    }
-
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    @ExceptionHandler
-    public ErrorResult exHandler(Exception ex) {
-        log.error("[@ExceptionHandler] ", ex);
-        return new ErrorResult("EX", "내부 오류");
-    }
-
-
     @GetMapping("/api2/members/{id}")
     public MemberDto getMember(@PathVariable("id") String id) {
         if (id.equals("ex")) {
